@@ -1,0 +1,20 @@
+alice_in_wonderland:
+  id: 1
+  title: Alice in Wonderland
+
+the_lord_of_the_rings:
+  id: 2
+  title: The Lord of the Rings
+
+shogun:
+  id: 3
+  title: Shogun
+
+catch_22:
+  id: 4
+  title: Catch 22
+
+animal_farm:
+  id: 5
+  title: Aminal Farm
+

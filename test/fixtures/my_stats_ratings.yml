@@ -1,0 +1,106 @@
+on_a_golden_pond_1:
+  id: 1001
+  rated_id: 1
+  rated_type: Tape
+  rater_id: 1 
+  rating: 4
+  
+on_a_golden_pond_2:
+  id: 1002
+  rated_id: 1
+  rated_type: Tape
+  rater_id: 2
+  rating: 4
+  
+on_a_golden_pond_3:
+  id: 1003
+  rated_id: 1
+  rated_type: Tape
+  rater_id: 3
+  rating: 5
+
+fame_1:
+  id: 1004
+  rated_id: 2
+  rated_type: Tape
+  rater_id: 3 
+  rating: 5
+  
+fame_2:
+  id: 1005
+  rated_id: 2
+  rated_type: Tape
+  rater_id: 4
+  rating: 5
+  
+fame_3:
+  id: 1006
+  rated_id: 2
+  rated_type: Tape
+  rater_id: 5
+  rating: 5
+  
+ten_1:
+  id: 1007
+  rated_id: 3
+  rated_type: Tape
+  rater_id: 1 
+  rating: 1
+  
+ten_2:
+  id: 1008
+  rated_id: 3
+  rated_type: Tape
+  rater_id: 2
+  rating: 1
+  
+ten_3:
+  id: 1009
+  rated_id: 3
+  rated_type: Tape
+  rater_id: 3
+  rating: 1
+  
+ten_4:
+  id: 1010
+  rated_id: 3
+  rated_type: Tape
+  rater_id: 4
+  rating: 1
+  
+fields_of_dreams_1:
+  id: 1011
+  rated_id: 4 
+  rated_type: Tape
+  rater_id: 1
+  rating: 3
+
+fields_of_dreams_2:
+  id: 1012
+  rated_id: 4 
+  rated_type: Tape
+  rater_id: 2
+  rating: 3
+
+fields_of_dreams_3:
+  id: 1013
+  rated_id: 4 
+  rated_type: Tape
+  rater_id: 3
+  rating: 5
+
+fields_of_dreams_4:
+  id: 1014
+  rated_id: 4 
+  rated_type: Tape
+  rater_id: 4
+  rating: 3
+
+fields_of_dreams_5:
+  id: 1015
+  rated_id: 4 
+  rated_type: Tape
+  rater_id: 5
+  rating: 2
+
+

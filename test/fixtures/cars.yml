@@ -1,0 +1,35 @@
+camry:
+  id: 1
+  title: Toyota Camry
+  rating_total: 9
+  rating_count: 3
+  rating_avg: 3
+
+carrera:
+  id: 2
+  title: Carrera
+  rating_total: 21
+  rating_count: 5
+  rating_avg: 4.2
+
+golf:
+  id: 3
+  title: VW Golf
+  rating_total: 7
+  rating_count: 2
+  rating_avg: 3.5
+
+bug:
+  id: 4
+  title: VW Bug
+  rating_total: 4
+  rating_count: 1
+  rating_avg: 4
+
+expedition:
+  id: 5
+  title: Ford Expedition
+  rating_total: 0
+  rating_count: 0
+  rating_avg: 0 
+  

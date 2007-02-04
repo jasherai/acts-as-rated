@@ -1,0 +1,350 @@
+movie_1:
+  id: 1
+  rater_id: 1
+  rated_id: 1
+  rated_type: Movie 
+  rating: 4
+            
+movie_2:
+  id: 2
+  rater_id: 2
+  rated_id: 1
+  rated_type: Movie 
+  rating: 4
+            
+movie_3:
+  id: 3
+  rater_id: 3
+  rated_id: 1
+  rated_type: Movie 
+  rating: 5
+            
+movie_4:
+  id: 4
+  rater_id: 1
+  rated_id: 2
+  rated_type: Movie 
+  rating: 5
+            
+movie_5:
+  id: 5
+  rater_id: 2
+  rated_id: 2
+  rated_type: Movie 
+  rating: 5
+            
+movie_6:
+  id: 6
+  rater_id: 4
+  rated_id: 2
+  rated_type: Movie 
+  rating: 5
+            
+movie_7:
+  id: 7
+  rater_id: 1
+  rated_id: 3
+  rated_type: Movie 
+  rating: 1
+            
+movie_8:
+  id: 8
+  rater_id: 2
+  rated_id: 3
+  rated_type: Movie 
+  rating: 1
+            
+movie_9:
+  id: 9
+  rater_id: 3
+  rated_id: 3
+  rated_type: Movie 
+  rating: 1
+            
+movie_10:
+  id: 10
+  rater_id: 5
+  rated_id: 3
+  rated_type: Movie 
+  rating: 1
+            
+movie_11:
+  id: 11
+  rater_id: 1
+  rated_id: 4
+  rated_type: Movie 
+  rating: 2
+            
+movie_12:
+  id: 12
+  rater_id: 2
+  rated_id: 4
+  rated_type: Movie 
+  rating: 2
+            
+movie_13:
+  id: 13
+  rater_id: 3
+  rated_id: 4
+  rated_type: Movie 
+  rating: 4
+            
+movie_14:
+  id: 14
+  rater_id: 4
+  rated_id: 4
+  rated_type: Movie 
+  rating: 3
+            
+movie_15:
+  id: 15
+  rater_id: 5
+  rated_id: 4
+  rated_type: Movie 
+  rating: 5
+            
+book_1:
+  id: 16
+  rater_id: 1
+  rated_id: 1 
+  rated_type: Book 
+  rating: 4
+            
+book_2:
+  id: 17
+  rater_id: 2
+  rated_id: 1
+  rated_type: Book 
+  rating: 3
+            
+book_3:
+  id: 18
+  rater_id: 3
+  rated_id: 1
+  rated_type: Book 
+  rating: 1
+            
+book_4:
+  id: 19
+  rater_id: 4
+  rated_id: 1
+  rated_type: Book 
+  rating: 2
+            
+book_5:
+  id: 20
+  rater_id: 5
+  rated_id: 1
+  rated_type: Book 
+  rating: 5
+            
+book_6:
+  id: 21
+  rater_id: 1
+  rated_id: 2
+  rated_type: Book 
+  rating: 5
+            
+book_7:
+  id: 22
+  rater_id: 2
+  rated_id: 2
+  rated_type: Book 
+  rating: 4
+            
+book_8:
+  id: 23
+  rater_id: 3
+  rated_id: 2
+  rated_type: Book 
+  rating: 1
+            
+book_9:
+  id: 24
+  rater_id: 4
+  rated_id: 2
+  rated_type: Book 
+  rating: 2
+            
+book_10: 
+  id: 25
+  rater_id: 2
+  rated_id: 3
+  rated_type: Book 
+  rating: 3
+            
+book_11: 
+  id: 26
+  rater_id: 3
+  rated_id: 3
+  rated_type: Book 
+  rating: 4
+            
+book_12:
+  id: 27
+  rater_id: 4
+  rated_id: 3
+  rated_type: Book 
+  rating: 3
+            
+book_13:
+  id: 28
+  rater_id: 5
+  rated_id: 3
+  rated_type: Book 
+  rating: 5
+            
+book_14:
+  id: 29
+  rater_id: 1
+  rated_id: 4
+  rated_type: Book 
+  rating: 5
+            
+book_15:
+  id: 30
+  rater_id: 2
+  rated_id: 4
+  rated_type: Book 
+  rating: 2
+            
+book_16:
+  id: 31
+  rater_id: 3
+  rated_id: 4
+  rated_type: Book 
+  rating: 4
+            
+book_17:
+  id: 32
+  rater_id: 1
+  rated_id: 5
+  rated_type: Book 
+  rating: 1
+            
+book_18:
+  id: 33
+  rater_id: 2
+  rated_id: 5
+  rated_type: Book 
+  rating: 1
+            
+book_19:
+  id: 34
+  rater_id: 3
+  rated_id: 5
+  rated_type: Book 
+  rating: 5
+            
+book_20:
+  id: 35
+  rater_id: 4
+  rated_id: 5
+  rated_type: Book 
+  rating: 5
+            
+film_1:
+  id: 1001
+  rater_id: 1
+  rated_id: 1
+  rated_type: Film 
+  rating: 4
+            
+film_2:
+  id: 1002
+  rater_id: 2
+  rated_id: 1
+  rated_type: Film 
+  rating: 4
+            
+film_3:
+  id: 1003
+  rater_id: 3
+  rated_id: 1
+  rated_type: Film 
+  rating: 5
+            
+film_4:
+  id: 1004
+  rater_id: 1
+  rated_id: 2
+  rated_type: Film 
+  rating: 5
+            
+film_5:
+  id: 1005
+  rater_id: 2
+  rated_id: 2
+  rated_type: Film 
+  rating: 5
+            
+film_6:
+  id: 1006
+  rater_id: 4
+  rated_id: 2
+  rated_type: Film 
+  rating: 5
+            
+film_7:
+  id: 1007
+  rater_id: 1
+  rated_id: 3
+  rated_type: Film 
+  rating: 1
+            
+film_8:
+  id: 1008
+  rater_id: 2
+  rated_id: 3
+  rated_type: Film 
+  rating: 1
+            
+film_9:
+  id: 1009
+  rater_id: 3
+  rated_id: 3
+  rated_type: Film 
+  rating: 1
+            
+film_10:
+  id: 1010
+  rater_id: 5
+  rated_id: 3
+  rated_type: Film 
+  rating: 1
+            
+film_11:
+  id: 1011
+  rater_id: 1
+  rated_id: 4
+  rated_type: Film 
+  rating: 2
+            
+film_12:
+  id: 1012
+  rater_id: 2
+  rated_id: 4
+  rated_type: Film 
+  rating: 2
+            
+film_13:
+  id: 1013
+  rater_id: 3
+  rated_id: 4
+  rated_type: Film 
+  rating: 4
+            
+film_14:
+  id: 1014
+  rater_id: 4
+  rated_id: 4
+  rated_type: Film 
+  rating: 3
+            
+film_15:
+  id: 1015
+  rater_id: 5
+  rated_id: 4
+  rated_type: Film 
+  rating: 5
+            

@@ -1,0 +1,32 @@
+on_a_golden_pond:
+  id: 1
+  rated_id: 1
+  rated_type: Video 
+  rating_total: 13 
+  rating_count: 3
+  rating_avg: 4.3333333333
+
+fame:
+  id: 2
+  rated_id: 2
+  rated_type: Video
+  rating_total: 15
+  rating_count: 3
+  rating_avg: 5
+
+ten:
+  id: 3 
+  rated_id: 3
+  rated_type: Video
+  rating_total: 4
+  rating_count: 4
+  rating_avg: 1
+
+fields_of_dreams:
+  id: 4
+  rated_id: 4 
+  rated_type: Video
+  rating_total: 16
+  rating_count: 5
+  rating_avg: 3.2
+

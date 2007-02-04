@@ -1,0 +1,132 @@
+camry_1:
+  id: 1001
+  rated_id: 1 
+  rated_type: Car 
+  rating: 3
+            
+camry_2:
+  id: 1002
+  rated_id: 1 
+  rated_type: Car 
+  rating: 4
+            
+camry_3:
+  id: 1003
+  rated_id: 1 
+  rated_type: Car 
+  rating: 2
+            
+carrera_1:
+  id: 1004
+  rated_id: 2 
+  rated_type: Car 
+  rating: 5 
+            
+carrera_2:
+  id: 1005
+  rated_id: 2 
+  rated_type: Car 
+  rating: 5
+            
+carrera_3:
+  id: 1006
+  rated_id: 2 
+  rated_type: Car 
+  rating: 3
+            
+carrera_4:
+  id: 1007
+  rated_id: 2 
+  rated_type: Car 
+  rating: 3
+            
+carrera_5:
+  id: 1008
+  rated_id: 2 
+  rated_type: Car 
+  rating: 5
+            
+golf_1:
+  id: 1009
+  rated_id: 3 
+  rated_type: Car 
+  rating: 3
+            
+golf_2:
+  id: 10010
+  rated_id: 3 
+  rated_type: Car 
+  rating: 4
+            
+bug_1:
+  id: 10011
+  rated_id: 4
+  rated_type: Car 
+  rating: 4
+            
+truck_camry_1:
+  id: 11001
+  rated_id: 1 
+  rated_type: Truck 
+  rating: 3
+            
+truck_camry_2:
+  id: 11002
+  rated_id: 1 
+  rated_type: Truck 
+  rating: 4
+            
+truck_camry_3:
+  id: 11003
+  rated_id: 1 
+  rated_type: Truck 
+  rating: 2
+            
+truck_carrera_1:
+  id: 11004
+  rated_id: 2 
+  rated_type: Truck 
+  rating: 5 
+            
+truck_carrera_2:
+  id: 11005
+  rated_id: 2 
+  rated_type: Truck 
+  rating: 5
+            
+truck_carrera_3:
+  id: 11006
+  rated_id: 2 
+  rated_type: Truck 
+  rating: 3
+            
+truck_carrera_4:
+  id: 11007
+  rated_id: 2 
+  rated_type: Truck 
+  rating: 3
+            
+truck_carrera_5:
+  id: 11008
+  rated_id: 2 
+  rated_type: Truck 
+  rating: 5
+            
+truck_golf_1:
+  id: 11009
+  rated_id: 3 
+  rated_type: Truck 
+  rating: 3
+            
+truck_golf_2:
+  id: 11010
+  rated_id: 3 
+  rated_type: Truck 
+  rating: 4
+            
+truck_bug_1:
+  id: 11011
+  rated_id: 4
+  rated_type: Truck 
+  rating: 4
+            

@@ -1,0 +1,70 @@
+= acts_as_rated
+
+The ultimate rating system for ActiveRecord models. Highly flexible and configurable, while easy to use with the defaults. Supports 3 different ways to manage the statistics, and creates all the needed associations for easy access to everything. 
+
+Comes complete with the needed migrations code to make it easy to add to any project.
+
+<em>NOTE:</em> It uses some advanced SQL constructs that might not be supported by all servers. It was tested on Postgres only. If you have patches/fixes for other databases, please send them and I will add them to the plugin.
+
+== Features
+
+* Rate any model
+* Optionally add fields to the rated objects to optimize speed
+* Optionally add an external rating statistics table with a record for each rated model
+* Can work with the added fields, external table or just using direct SQL count/avg calls
+* Use any model as the rater (defaults to User)
+* Limit the range of the ratings
+* Average, total and number of ratings
+* Find objects by ratings or rating ranges
+* Find objects by rater
+* Extensively tested
+
+== Basic Details
+
+Install
+
+* script/plugin install svn://rubyforge.org/var/svn/acts-as-rated/trunk/acts_as_rated
+* gem install - <b>comming soon</b>
+
+Rubyforge project
+
+* http://rubyforge.org/projects/acts-as-rated
+
+RDocs
+
+* http://acts-as-rated.rubyforge.org
+
+Subversion
+
+* svn://rubyforge.org/var/svn/acts-as-rated
+
+My blog with some comments about the plugin
+
+* http://devblog.famundo.com
+
+Work done as part of Famundo development
+
+* http://www.famundo.com
+
+Contact me at
+
+* guy.naor@famundo.com
+
+== TODO
+* Test with more databases
+* Test with other versions of Rails (tested against 1.2.1)
+* Add view helpers for easy display and entering of the ratings
+
+
+== Testing the plugin
+
+The plugin comes with a full set of tests, both for migrations and for the code itself. The framework was taken from the acts_as_versioned plugin, allowing it to run stand-alone in the test directory.
+
+run the tests:
+    rake test
+
+In order for testing to work, you need to create a database (default name is acts_as_rated_plugin_test) and edit test/database.yml to make sure the login and password are correct. You can also change there the name of the database.
+
+Testing defaults to postgresql, to change it set the environment variable DB to the driver you want to use:
+    env DB='mysql' rake test
+    

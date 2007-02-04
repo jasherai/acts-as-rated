@@ -1,0 +1,36 @@
+gone_with_the_wind:
+  id: 1
+  title: Gone With The Wind
+  rating_total: 13 
+  rating_count: 3
+  rating_avg: 4.3333333333
+
+oz:
+  id: 2
+  title: The Wizard of Oz 
+  rating_total: 15
+  rating_count: 3
+  rating_avg: 5
+
+rambo_3:
+  id: 3 
+  title: Rambo 3 
+  rating_total: 4
+  rating_count: 4
+  rating_avg: 1
+
+phantom:
+  id: 4
+  title: Phantom Menace  
+  rating_total: 16
+  rating_count: 5
+  rating_avg: 3.2
+
+crash:
+  id: 5
+  title: Crash 
+  rating_total: 0 
+  rating_count: 0
+  rating_avg: 0 
+
+  

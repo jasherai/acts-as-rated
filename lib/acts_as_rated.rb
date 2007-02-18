@@ -263,6 +263,17 @@ module ActiveRecord #:nodoc:
           end
         end
 
+        # Check if an item was already rated by the given rater
+        def rated_by? rater
+          rating_class = acts_as_rated_options[:rating_class].constantize
+          if !(acts_as_rated_options[:rater_class].constantize === rater)
+             raise RateError, "The rater object must be the one used when defining acts_as_rated (or a descendent of it). other objects are not acceptable" 
+          end
+          raise RateError, "Rater must be a valid and existing object" if rater.nil? || rater.id.nil?
+          raise RateError, 'Rater must be a valid rater' if !rating_class.column_names.include? "rater_id"
+          ratings.count(:conditions => ['rater_id = ?', rater.id]) > 0
+        end
+            
         private
 
         def init_rating_fields #:nodoc:
@@ -284,7 +295,7 @@ module ActiveRecord #:nodoc:
         def generate_ratings_columns table
           table.column :rating_count, :integer
           table.column :rating_total, :decimal
-          table.column :rating_avg,   :decimal
+          table.column :rating_avg,   :decimal, :precision => 10, :scale => 2
         end
 
         # Create the needed columns for acts_as_rated. 
@@ -293,7 +304,7 @@ module ActiveRecord #:nodoc:
           if !self.content_columns.find { |c| 'rating_count' == c.name }
             self.connection.add_column table_name, :rating_count, :integer
             self.connection.add_column table_name, :rating_total, :decimal
-            self.connection.add_column table_name, :rating_avg,   :decimal
+            self.connection.add_column table_name, :rating_avg,   :decimal, :precision => 10, :scale => 2
             self.reset_column_information
           end            
         end
@@ -336,7 +347,7 @@ module ActiveRecord #:nodoc:
               t.column :rated_type,   :string
               t.column :rating_count, :integer
               t.column :rating_total, :decimal
-              t.column :rating_avg,   :decimal
+              t.column :rating_avg,   :decimal, :precision => 10, :scale => 2
             end
           
             self.connection.add_index stats_table, [:rated_type, :rated_id]
@@ -369,6 +380,7 @@ module ActiveRecord #:nodoc:
           acts_as_rated_options[:rating_class].constantize.find(:all, :conditions => conds).collect {|r| r.rated_type.constantize.find_by_id r.rated.id }
         end
 
+       
         # Find by rating - pass either a specific value or a range and the precision to calculate with
         # * <tt>value</tt> - the value to look for or a range
         # * <tt>precision</tt> - number of decimal digits to round to. Default to 10. Use 0 for integer numbers comparision
@@ -392,8 +404,7 @@ module ActiveRecord #:nodoc:
                      on rated_id=id 
             EOS
             if Range === value
-              where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) >= #{connection.quote(value.begin)} 
-                             AND   round(COALESCE(average,0), #{precision.to_i}) <= #{connection.quote(value.end)}"
+              where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) BETWEEN  #{connection.quote(value.begin)} AND #{connection.quote(value.end)}"
             else
               where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) = #{connection.quote(value)}"
             end

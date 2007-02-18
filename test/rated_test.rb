@@ -294,6 +294,36 @@ class RatedTest < Test::Unit::TestCase
     assert_equal 20, b.rated_total
   end
 
+  def test_rated_by?
+    m = movies(:gone_with_the_wind)
+    m.rate 4, users(:john)
+    m.rate 4, users(:bill)
+    m.rate 4, users(:sarah)
+    m.rate 4, users(:jane)
+    m.rate 4, users(:jill)
+    m.unrate users(:jill)
+    m.unrate users(:sarah)
+    assert m.rated_by?(users(:john))
+    assert m.rated_by?(users(:bill))
+    assert m.rated_by?(users(:jane))
+    assert !m.rated_by?(users(:jill))
+    assert !m.rated_by?(users(:sarah))
+    
+    b = books(:animal_farm)
+    b.rate 4, Worker.find(users(:john).id)
+    b.rate 4, Worker.find(users(:bill).id)
+    b.rate 4, Worker.find(users(:sarah).id)
+    b.rate 4, Worker.find(users(:jane).id)
+    b.rate 4, Worker.find(users(:jill).id)
+    b.unrate Worker.find(users(:john).id)
+    b.unrate Worker.find(users(:bill).id)
+    assert !b.rated_by?(Worker.find(users(:john).id) )
+    assert !b.rated_by?(Worker.find(users(:bill).id) )
+    assert  b.rated_by?(Worker.find(users(:sarah).id))
+    assert  b.rated_by?(Worker.find(users(:jane).id) )
+    assert  b.rated_by?(Worker.find(users(:jill).id) )
+  end
+  
   def test_find_by_rating
     cs = Car.find_by_rating 0
     assert_equal 1, cs.size

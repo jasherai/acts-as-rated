@@ -4,7 +4,8 @@ The ultimate rating system for ActiveRecord models. Highly flexible and configur
 
 Comes complete with the needed migrations code to make it easy to add to any project.
 
-<em>NOTE:</em> It uses some advanced SQL constructs that might not be supported by all servers. It was tested on Postgres only. If you have patches/fixes for other databases, please send them and I will add them to the plugin.
+<em>NOTE:</em> It uses some advanced SQL constructs that might not be supported by all servers. It was tested on Postgres only. If you have patches/fixes for other databases, please send them and I will add them to the plugin. <em>UPDATE:</em> Thanks to work done by Tiago Serafim it now passes all but one tests on MySQL. And this test fails due to strangeness in the avg() function in MySQL, according to Tiago.
+
 
 == Features
 
@@ -17,6 +18,7 @@ Comes complete with the needed migrations code to make it easy to add to any pro
 * Average, total and number of ratings
 * Find objects by ratings or rating ranges
 * Find objects by rater
+* Check if an object is rated by a specific rater. (Added by Tiago Serafim, thanks!)
 * Extensively tested
 
 == Basic Details
@@ -24,7 +26,7 @@ Comes complete with the needed migrations code to make it easy to add to any pro
 Install
 
 * script/plugin install svn://rubyforge.org/var/svn/acts-as-rated/trunk/acts_as_rated
-* gem install - <b>comming soon</b>
+* gem install - <b>coming soon</b>
 
 Rubyforge project
 
@@ -37,6 +39,10 @@ RDocs
 Subversion
 
 * svn://rubyforge.org/var/svn/acts-as-rated
+
+Agile Web Development directory
+
+* http://www.agilewebdevelopment.com/plugins/acts_as_rated
 
 My blog with some comments about the plugin
 
@@ -54,6 +60,73 @@ Contact me at
 * Test with more databases
 * Test with other versions of Rails (tested against 1.2.1)
 * Add view helpers for easy display and entering of the ratings
+
+== Example of usage:
+
+=== Simple rating system
+Look at the file <tt>test/rating_test.rb</tt> for many usage examples covering all variations of the plugin.
+
+  class Book < ActiveRecord::Base
+    acts_as_rated
+  end
+
+  bill = User.find_by_name 'bill'
+  jill = User.find_by_name 'jill'
+  catch22 = Book.find_by_title 'Catch 22'
+  hobbit  = Book.find_by_title 'Hobbit'
+
+  catch22.rate 5, bill
+  hobbit.rate  3, bill
+  catch22.rate 1, jill
+  hobbit.rate  5, jill
+
+  hobbit.rating_average # => 4
+  hobbit.rated_total    # => 8
+  hobbit.rated_count    # => 2
+
+  hobbit.unrate bill 
+  hobbit.rating_average # => 5
+  hobbit.rated_total    # => 5
+  hobbit.rated_count    # => 1
+
+  bks = Book.find_by_rating 5     # => [hobbit]
+  bks = Book.find_by_rating 1..5  # => [catch22, hobbit]
+
+  usr = Book.find_rated_by jill   # => [catch22, hobbit]
+
+=== Migration 
+The file <tt>test/fixtures/migrations/001_add_rating_tables.rb</tt> shows examples of all types of migration options.
+
+See also the detailed documentation for the <tt>acts_as_rated</tt> method on how to declare it, and the rest of the documentation for how to generate the migration columns/files and how to use it.
+
+  class AddRatingTables < ActiveRecord::Migration
+    def self.up
+      ActiveRecord::Base.create_ratings_table
+      
+      # Movies table has the columns for the ratings added while it's created
+      create_table(:movies) do |t|
+	t.column :title, :text
+	Movie.generate_ratings_columns t
+      end
+
+      # Cars table has the columns for the ratings added, but after the fact, using ALTER TABLE calls.
+      # Usually used if the model already exist and we want to add the ratings after the fact
+      create_table(:cars) do |t|
+	t.column :title, :text
+      end
+      Car.add_ratings_columns
+    end
+    
+    def self.down
+      # Remove the columns we added
+      Car.remove_ratings_columns
+      
+      drop_table :movies rescue nil
+      drop_table :cars rescue nil
+
+      ActiveRecord::Base.drop_ratings_table
+    end
+  end  
 
 
 == Testing the plugin

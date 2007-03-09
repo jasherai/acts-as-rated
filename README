@@ -56,6 +56,10 @@ Contact me at
 
 * guy.naor@famundo.com
 
+== Changes
+* V3 - Added improved find_by_rating as proposed by Ian McIntosh
+* V2 - Passing MySQL tests, check if rated by a specific rater as proposed by Tiago Serafim
+
 == TODO
 * Test with more databases
 * Test with other versions of Rails (tested against 1.2.1)

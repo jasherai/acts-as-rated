@@ -384,29 +384,49 @@ module ActiveRecord #:nodoc:
         # Find by rating - pass either a specific value or a range and the precision to calculate with
         # * <tt>value</tt> - the value to look for or a range
         # * <tt>precision</tt> - number of decimal digits to round to. Default to 10. Use 0 for integer numbers comparision
-        def find_by_rating value, precision = 10
+        # * <tt>round_it</tt> - round the rating average before comparing?. Defaults to true. Passing false will result in a faster query
+        def find_by_rating value, precision = 10, round = true
           rating_class = acts_as_rated_options[:rating_class].constantize
           if column_names.include? "rating_avg"
             if Range === value 
-              conds = [ 'round(rating_avg, ?) >= ? AND round(rating_avg, ?) <= ?', 
-                        precision.to_i, connection.quote(value.begin), precision.to_i, connection.quote(value.end) ]
+              conds = round ? [ 'round(rating_avg, ?) BETWEEN ? AND ?', precision.to_i, value.begin, value.end ] : 
+                              [ 'rating_avg BETWEEN ? AND ?', value.begin, value.end ]
             else
-              conds = [ 'round(rating_avg, ?) = ?', precision.to_i, connection.quote(value) ]
+              conds = round ? [ 'round(rating_avg, ?) = ?', precision.to_i, value ] : [ 'rating_avg = ?', value ]
             end
             find :all, :conditions => conds
           else
-            base_sql = <<-EOS
+            if round
+              base_sql = <<-EOS
                 select #{table_name}.*,round(COALESCE(average,0), #{precision.to_i}) AS rating_average from #{table_name} left outer join
                   (select avg(rating) as average, rated_id  
                      from #{rating_class.table_name}
                      where rated_type = '#{class_name}' 
                      group by rated_id) as rated 
                      on rated_id=id 
-            EOS
-            if Range === value
-              where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) BETWEEN  #{connection.quote(value.begin)} AND #{connection.quote(value.end)}"
+              EOS
             else
-              where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) = #{connection.quote(value)}"
+              base_sql = <<-EOS
+                select #{table_name}.*,COALESCE(average,0) AS rating_average from #{table_name} left outer join
+                  (select avg(rating) as average, rated_id  
+                     from #{rating_class.table_name}
+                     where rated_type = '#{class_name}' 
+                     group by rated_id) as rated 
+                     on rated_id=id 
+              EOS
+            end
+            if Range === value
+              if round
+                where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) BETWEEN  #{connection.quote(value.begin)} AND #{connection.quote(value.end)}"
+              else
+                where_part = " WHERE COALESCE(average,0) BETWEEN #{connection.quote(value.begin)} AND #{connection.quote(value.end)}"
+              end
+            else
+              if round
+                where_part = " WHERE round(COALESCE(average,0), #{precision.to_i}) = #{connection.quote(value)}"
+              else
+                where_part = " WHERE COALESCE(average,0) = #{connection.quote(value)}"
+              end
             end
 
             find_by_sql base_sql + where_part

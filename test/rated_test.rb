@@ -342,7 +342,13 @@ class RatedTest < Test::Unit::TestCase
     check_returned_array cs, ['Toyota Camry', 'VW Golf', 'VW Bug'] 
     fs = Film.find_by_rating 1..4, 0
     check_returned_array fs, ["Rambo 3", "Gone With The Wind", "Phantom Menace"] 
-    ms = Movie.find_by_rating 5 
+    cs = Car.find_by_rating 3..4, 0, false
+    check_returned_array cs, ['Toyota Camry', 'VW Golf', 'VW Bug'] 
+    cs = Car.find_by_rating 3..4.5, 0, false
+    check_returned_array cs, ['Toyota Camry', 'VW Golf', 'Carrera', 'VW Bug'] 
+    fs = Film.find_by_rating 1..4, 0, false
+    check_returned_array fs, ["Rambo 3", "Phantom Menace"] 
+    ms = Movie.find_by_rating 5
     check_returned_array ms, ["The Wizard of Oz"] 
     bs = Book.find_by_rating 3..3.7
     check_returned_array bs, ["Alice in Wonderland", "Aminal Farm", "The Lord of the Rings", "Catch 22"] 
@@ -352,6 +358,13 @@ class RatedTest < Test::Unit::TestCase
     check_returned_array bs, ["Alice in Wonderland", "Aminal Farm", "The Lord of the Rings"] 
     bs = Book.find_by_rating 3, 0
     check_returned_array bs, ["Alice in Wonderland", "Aminal Farm", "The Lord of the Rings"] 
+
+    bs = Book.find_by_rating 3..3.7, 0, false
+    check_returned_array bs, ["Alice in Wonderland", "Aminal Farm", "The Lord of the Rings", "Catch 22"] 
+    bs = Book.find_by_rating 1..3.3, 0, false
+    check_returned_array bs, ["Alice in Wonderland", "Aminal Farm", "The Lord of the Rings"] 
+    bs = Book.find_by_rating 3.75, 0, false
+    check_returned_array bs, ["Shogun"] 
   end
 
   def test_find_rated_by

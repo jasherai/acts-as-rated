@@ -213,14 +213,14 @@ module ActiveRecord #:nodoc:
               if target
                 target.rating_count = (target.rating_count || 0) + 1 
                 target.rating_total = (target.rating_total || 0) + value
-                target.rating_avg = target.rating_total / target.rating_count
+                target.rating_avg = target.rating_total.to_f / target.rating_count
               end
               ratings << rate
             else
               rate = r
               if target
                 target.rating_total += value - rate.rating # Update the total rating with the new one
-                target.rating_avg = target.rating_total / target.rating_count 
+                target.rating_avg = target.rating_total.to_f / target.rating_count
               end
             end
 
@@ -252,7 +252,7 @@ module ActiveRecord #:nodoc:
               rating_class.transaction do
                 target.rating_count -= 1
                 target.rating_total -= r.rating
-                target.rating_avg = target.rating_total / target.rating_count
+                target.rating_avg = target.rating_total.to_f / target.rating_count
                 target.rating_avg = 0 if target.rating_avg.nan?
               end
             end

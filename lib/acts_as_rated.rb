@@ -301,23 +301,21 @@ module ActiveRecord #:nodoc:
         # Create the needed columns for acts_as_rated. 
         # To be used during migration, but can also be used in other places.
         def add_ratings_columns
-          if !self.content_columns.find { |c| 'rating_count' == c.name }
+          if !self.column_names.include? 'rating_count'
             self.connection.add_column table_name, :rating_count, :integer
             self.connection.add_column table_name, :rating_total, :decimal
             self.connection.add_column table_name, :rating_avg,   :decimal, :precision => 10, :scale => 2
             self.reset_column_information
-          end            
+          end
         end
 
         # Remove the acts_as_rated specific columns added with add_ratings_columns
         # To be used during migration, but can also be used in other places
         def remove_ratings_columns
-          if self.content_columns.find { |c| 'rating_count' == c.name }
-            self.connection.drop_column table_name, :rating_count
-            self.connection.drop_column table_name, :rating_total
-            self.connection.drop_column table_name, :rating_avg
+          if self.column_names.include? 'rating_count'
+            self.connection.remove_columns table_name, :rating_count, :rating_total, :rating_avg
             self.reset_column_information
-          end            
+          end
         end
 
         # Create the ratings table

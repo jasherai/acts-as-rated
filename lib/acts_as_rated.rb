@@ -3,8 +3,8 @@ module ActiveRecord #:nodoc:
 
     # == acts_as_rated
     # Adds rating capabilities to any ActiveRecord object.
-    # It has the ability to work with objects that have or don't special fields to keep a tally of the 
-    # ratings and number of votes for each object. 
+    # It has the ability to work with objects that have or don't special fields to keep a tally of the
+    # ratings and number of votes for each object.
     # In addition it will by default use the User model as the rater object and keep the ratings per-user.
     # It can be configured to use another class, or not use a rater at all, just keeping a global rating
     #
@@ -31,7 +31,7 @@ module ActiveRecord #:nodoc:
     #   hobbit.rated_total    # => 8
     #   hobbit.rated_count    # => 2
     #
-    #   hobbit.unrate bill 
+    #   hobbit.unrate bill
     #   hobbit.rating_average # => 5
     #   hobbit.rated_total    # => 5
     #   hobbit.rated_count    # => 1
@@ -42,54 +42,54 @@ module ActiveRecord #:nodoc:
     #   usr = Book.find_rated_by jill   # => [catch22, hobbit]
     #
     module Rated
-     
+
       class RateError < RuntimeError; end
-      
+
       def self.included(base) #:nodoc:
-        base.extend(ClassMethods)  
+        base.extend(ClassMethods)
       end
-      
+
       module ClassMethods
 
         # Make the model ratable. Can work both with and without a rater entity (defaults to User).
         # The Rating model, holding the details of the ratings, will be created dynamically if it doesn't exist.
-        # 
+        #
         # * Adds a <tt>has_many :ratings</tt> association to the model for easy retrieval of the detailed ratings.
         # * Adds a <tt>has_many :raters</tt> association to the onject, unless <tt>:no_rater</tt> is given as a configuration parameter.
         # * Adds a <tt>has_many :ratings</tt> associations to the rater class.
         # * Adds a <tt>has_one :rating_statistic</tt> association to the model, if <tt>:with_stats_table => true</tt> is given as a configuration param.
         #
         # === Options
-        # * <tt>:rating_class</tt> - 
+        # * <tt>:rating_class</tt> -
         #   class of the model used for the ratings. Defaults to Rating. This class will be dynamically created if not already defined.
         #   If the class is predefined, it must have in it the following definitions:
-        #   <tt>belongs_to :rated, :polymorphic => true</tt> and if using a rater (which is true in most cases, see below) also 
+        #   <tt>belongs_to :rated, :polymorphic => true</tt> and if using a rater (which is true in most cases, see below) also
         #   <tt>belongs_to :rater, :class_name => 'User', :foreign_key => :rater_id</tt> replace user with the rater class if needed.
-        # * <tt>:rater_class</tt> - 
-        #   class of the model that creates the rating. 
-        #   Defaults to User This class will NOT be created, so it must be defined in the app. 
+        # * <tt>:rater_class</tt> -
+        #   class of the model that creates the rating.
+        #   Defaults to User This class will NOT be created, so it must be defined in the app.
         #   Another option will be to keep a session or IP based ID here to prevent multiple ratings from the same client.
-        # * <tt>:no_rater</tt> - 
+        # * <tt>:no_rater</tt> -
         #   do not keep track of who created the rating. This will change the behaviour
         #   to one that just collects and averages ratings, but doesn't keep track of who
         #   posted the rating. Useful in a public application that doesn't care about
         #   individual votes
-        # * <tt>:rating_range</tt> - 
+        # * <tt>:rating_range</tt> -
         #   A range object for the acceptable rating value range. Defaults to not limited
         # * <tt>:with_stats_table</tt> -
         #   Use a separate statistics table to hold the count/total/average rating of the rated object instead of adding the columns to the object's table.
         #   This means we do not have to change the model table. It still holds a big performance advantage over using SQL to get the statistics
         # * <tt>:stats_class -
-        #   Class of the statics table model. Only needed if <tt>:with_stats_table</tt> is set to true. Default to RatingStat. 
+        #   Class of the statics table model. Only needed if <tt>:with_stats_table</tt> is set to true. Default to RatingStat.
         #   This class need to have the following defined: <tt>belongs_to :rated, :polymorphic => true</tt>.
         #   And must make sure that it has the attributes <tt>rating_count</tt>, <tt>rating_total</tt> and <tt>rating_avg</tt> and those
         #   must be initialized to 0 on new instances
-        #   
+        #
         def acts_as_rated(options = {})
           # don't allow multiple calls
           return if self.included_modules.include?(ActiveRecord::Acts::Rated::RateMethods)
           send :include, ActiveRecord::Acts::Rated::RateMethods
-                    
+
           # Create the model for ratings if it doesn't yet exist
           rating_class = options[:rating_class] || 'Rating'
           rater_class  = options[:rater_class]  || 'User'
@@ -111,15 +111,15 @@ module ActiveRecord #:nodoc:
               end
             EOV
           end
-         
+
           raise RatedError, ":rating_range must be a range object" unless options[:rating_range].nil? || (Range === options[:rating_range])
-          write_inheritable_attribute( :acts_as_rated_options , 
-                                         { :rating_range => options[:rating_range], 
+          write_inheritable_attribute( :acts_as_rated_options ,
+                                         { :rating_range => options[:rating_range],
                                            :rating_class => rating_class,
                                            :stats_class => stats_class,
                                            :rater_class => rater_class } )
           class_inheritable_reader :acts_as_rated_options
-          
+
           class_eval do
             has_many :ratings, :as => :rated, :dependent => :delete_all, :class_name => rating_class.to_s
             has_many(:raters, :through => :ratings, :class_name => rater_class.to_s) unless options[:no_rater]
@@ -129,7 +129,7 @@ module ActiveRecord #:nodoc:
           end
 
           # Add to the User (or whatever the rater is) a has_many ratings if working with a rater
-          return if options[:no_rater] 
+          return if options[:no_rater]
           rater_as_class = rater_class.constantize
           return if rater_as_class.instance_methods.include?('find_in_ratings')
           rater_as_class.class_eval <<-EOS
@@ -139,17 +139,17 @@ module ActiveRecord #:nodoc:
       end
 
       module RateMethods
-      
+
         def self.included(base) #:nodoc:
           base.extend ClassMethods
         end
 
-        # Get the average based on the special fields, 
+        # Get the average based on the special fields,
         # or with a SQL query if the rated objects doesn't have the avg and count fields
         def rating_average
           return self.rating_avg if attributes.has_key?('rating_avg')
           return (rating_statistic.rating_avg || 0) rescue 0 if acts_as_rated_options[:stats_class]
-          avg = ratings.average(:rating) 
+          avg = ratings.average(:rating)
           avg = 0 if avg.nan?
           avg
         end
@@ -163,25 +163,25 @@ module ActiveRecord #:nodoc:
           end
 
           # last is the one where we don't keep the statistics - go direct to the db
-          !ratings.find(:first).nil? 
+          !ratings.find(:first).nil?
         end
-        
-        # Get the number of ratings for this object based on the special fields, 
+
+        # Get the number of ratings for this object based on the special fields,
         # or with a SQL query if the rated objects doesn't have the avg and count fields
         def rated_count
           return self.rating_count || 0 if attributes.has_key? 'rating_count'
           return (rating_statistic.rating_count || 0) rescue 0 if acts_as_rated_options[:stats_class]
-          ratings.count 
+          ratings.count
         end
 
-        # Get the sum of all ratings for this object based on the special fields, 
+        # Get the sum of all ratings for this object based on the special fields,
         # or with a SQL query if the rated objects doesn't have the avg and count fields
         def rated_total
           return self.rating_total || 0 if attributes.has_key? 'rating_total'
           return (rating_statistic.rating_total || 0) rescue 0 if acts_as_rated_options[:stats_class]
-          ratings.sum(:rating) 
+          ratings.sum(:rating)
         end
-            
+
         # Rate the object with or without a rater - create new or update as needed
         #
         # * <tt>value</tt> - the value to rate by, if a rating range was specified will be checked that it is in range
@@ -198,11 +198,11 @@ module ActiveRecord #:nodoc:
           raise RateError, "rating with rater must receive a rater as parameter" if with_rater && (rater.nil? || rater.id.nil?)
           r = with_rater ? ratings.find(:first, :conditions => ['rater_id = ?', rater.id]) : nil
           raise RateError, "value is out of range!" unless acts_as_rated_options[:rating_range].nil? || acts_as_rated_options[:rating_range] === value
-          
+
           # Find the place to store the rating statistics if any...
           # Take care of the case of a separate statistics table
           unless acts_as_rated_options[:stats_class].nil? || @rating_statistic.class.to_s == acts_as_rated_options[:stats_class]
-            self.rating_statistic = acts_as_rated_options[:stats_class].constantize.new    
+            self.rating_statistic = acts_as_rated_options[:stats_class].constantize.new
           end
           target = self if attributes.has_key? 'rating_total'
           target ||= self.rating_statistic if acts_as_rated_options[:stats_class]
@@ -211,7 +211,7 @@ module ActiveRecord #:nodoc:
               rate = rating_class.new
               rate.rater_id = rater.id if with_rater
               if target
-                target.rating_count = (target.rating_count || 0) + 1 
+                target.rating_count = (target.rating_count || 0) + 1
                 target.rating_total = (target.rating_total || 0) + value
                 target.rating_avg = target.rating_total.to_f / target.rating_count
               end
@@ -240,7 +240,7 @@ module ActiveRecord #:nodoc:
         def unrate rater
           rating_class = acts_as_rated_options[:rating_class].constantize
           if !(acts_as_rated_options[:rater_class].constantize === rater)
-            raise RateError, "The rater object must be the one used when defining acts_as_rated (or a descendent of it). other objects are not acceptable" 
+            raise RateError, "The rater object must be the one used when defining acts_as_rated (or a descendent of it). other objects are not acceptable"
           end
           raise RateError, "Rater must be a valid and existing object" if rater.nil? || rater.id.nil?
           raise RateError, 'Cannot unrate if not using a rater' if !rating_class.column_names.include? "rater_id"
@@ -267,24 +267,24 @@ module ActiveRecord #:nodoc:
         def rated_by? rater
           rating_class = acts_as_rated_options[:rating_class].constantize
           if !(acts_as_rated_options[:rater_class].constantize === rater)
-             raise RateError, "The rater object must be the one used when defining acts_as_rated (or a descendent of it). other objects are not acceptable" 
+             raise RateError, "The rater object must be the one used when defining acts_as_rated (or a descendent of it). other objects are not acceptable"
           end
           raise RateError, "Rater must be a valid and existing object" if rater.nil? || rater.id.nil?
           raise RateError, 'Rater must be a valid rater' if !rating_class.column_names.include? "rater_id"
           ratings.count(:conditions => ['rater_id = ?', rater.id]) > 0
         end
-            
+
         private
 
         def init_rating_fields #:nodoc:
           if attributes.has_key? 'rating_total'
-            self.rating_count ||= 0 
+            self.rating_count ||= 0
             self.rating_total ||= 0
             self.rating_avg   ||= 0
           end
-        end 
+        end
 
-      end  
+      end
 
       module ClassMethods
 
@@ -298,7 +298,7 @@ module ActiveRecord #:nodoc:
           table.column :rating_avg,   :decimal, :precision => 10, :scale => 2
         end
 
-        # Create the needed columns for acts_as_rated. 
+        # Create the needed columns for acts_as_rated.
         # To be used during migration, but can also be used in other places.
         def add_ratings_columns
           if !self.column_names.include? 'rating_count'
@@ -321,24 +321,24 @@ module ActiveRecord #:nodoc:
         # Create the ratings table
         # === Options hash:
         # * <tt>:with_rater</tt> - add the rated_id column
-        # * <tt>:table_name</tt> - use a table name other than ratings 
+        # * <tt>:table_name</tt> - use a table name other than ratings
         # * <tt>:with_stats_table</tt> - create also a rating statistics table
         # * <tt>:stats_table_name</tt> - the name of the rating statistics table. Defaults to :rating_statistics
         # To be used during migration, but can also be used in other places
         def create_ratings_table options = {}
-          with_rater  = options[:with_rater] != false 
+          with_rater  = options[:with_rater] != false
           name        = options[:table_name] || :ratings
           stats_table = options[:stats_table_name] || :rating_statistics if options[:with_stats_table]
           self.connection.create_table(name) do |t|
             t.column(:rater_id,   :integer) unless !with_rater
             t.column :rated_id,   :integer
             t.column :rated_type, :string
-            t.column :rating,     :decimal 
+            t.column :rating,     :decimal
           end
 
           self.connection.add_index(name, :rater_id) unless !with_rater
           self.connection.add_index name, [:rated_type, :rated_id]
-          
+
           unless stats_table.nil?
             self.connection.create_table(stats_table) do |t|
               t.column :rated_id,     :integer
@@ -347,13 +347,13 @@ module ActiveRecord #:nodoc:
               t.column :rating_total, :decimal
               t.column :rating_avg,   :decimal, :precision => 10, :scale => 2
             end
-          
+
             self.connection.add_index stats_table, [:rated_type, :rated_id]
           end
 
         end
 
-        # Drop the ratings table. 
+        # Drop the ratings table.
         # === Options hash:
         # * <tt>:table_name</tt> - the name of the ratings table, defaults to ratings
         # * <tt>:with_stats_table</tt> - remove the special rating statistics as well
@@ -362,10 +362,10 @@ module ActiveRecord #:nodoc:
         def drop_ratings_table options = {}
           name = options[:table_name] || :ratings
           stats_table = options[:stats_table_name] || :rating_statistics if options[:with_stats_table]
-          self.connection.drop_table name 
-          self.connection.drop_table stats_table unless stats_table.nil? 
+          self.connection.drop_table name
+          self.connection.drop_table stats_table unless stats_table.nil?
         end
-          
+
         # Find all ratings for a specific rater.
         # Will raise an error if this acts_as_rated is without a rater.
         def find_rated_by rater
@@ -378,7 +378,7 @@ module ActiveRecord #:nodoc:
           acts_as_rated_options[:rating_class].constantize.find(:all, :conditions => conds).collect {|r| r.rated_type.constantize.find_by_id r.rated.id }
         end
 
-       
+
         # Find by rating - pass either a specific value or a range and the precision to calculate with
         # * <tt>value</tt> - the value to look for or a range
         # * <tt>precision</tt> - number of decimal digits to round to. Default to 10. Use 0 for integer numbers comparision
@@ -386,8 +386,8 @@ module ActiveRecord #:nodoc:
         def find_by_rating value, precision = 10, round = true
           rating_class = acts_as_rated_options[:rating_class].constantize
           if column_names.include? "rating_avg"
-            if Range === value 
-              conds = round ? [ 'round(rating_avg, ?) BETWEEN ? AND ?', precision.to_i, value.begin, value.end ] : 
+            if Range === value
+              conds = round ? [ 'round(rating_avg, ?) BETWEEN ? AND ?', precision.to_i, value.begin, value.end ] :
                               [ 'rating_avg BETWEEN ? AND ?', value.begin, value.end ]
             else
               conds = round ? [ 'round(rating_avg, ?) = ?', precision.to_i, value ] : [ 'rating_avg = ?', value ]
@@ -397,20 +397,20 @@ module ActiveRecord #:nodoc:
             if round
               base_sql = <<-EOS
                 select #{table_name}.*,round(COALESCE(average,0), #{precision.to_i}) AS rating_average from #{table_name} left outer join
-                  (select avg(rating) as average, rated_id  
+                  (select avg(rating) as average, rated_id
                      from #{rating_class.table_name}
-                     where rated_type = '#{class_name}' 
-                     group by rated_id) as rated 
-                     on rated_id=id 
+                     where rated_type = '#{base_class}'
+                     group by rated_id) as rated
+                     on rated_id=id
               EOS
             else
               base_sql = <<-EOS
                 select #{table_name}.*,COALESCE(average,0) AS rating_average from #{table_name} left outer join
-                  (select avg(rating) as average, rated_id  
+                  (select avg(rating) as average, rated_id
                      from #{rating_class.table_name}
-                     where rated_type = '#{class_name}' 
-                     group by rated_id) as rated 
-                     on rated_id=id 
+                     where rated_type = '#{base_class}'
+                     group by rated_id) as rated
+                     on rated_id=id
               EOS
             end
             if Range === value
@@ -429,9 +429,9 @@ module ActiveRecord #:nodoc:
 
             find_by_sql base_sql + where_part
           end
-        end          
+        end
       end
-      
+
     end
   end
 end

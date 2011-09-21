@@ -118,7 +118,7 @@ module ActiveRecord #:nodoc:
                                            :rating_class => rating_class,
                                            :stats_class => stats_class,
                                            :rater_class => rater_class } )
-          class_inheritable_reader :acts_as_rated_options
+          class_attribute :acts_as_rated_options
 
           class_eval do
             has_many :ratings, :as => :rated, :dependent => :delete_all, :class_name => rating_class.to_s

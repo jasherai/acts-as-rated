@@ -99,7 +99,7 @@ module ActiveRecord #:nodoc:
             Object.class_eval <<-EOV
               class #{rating_class} < ActiveRecord::Base
                 belongs_to :rated, :polymorphic => true
-                #{options[:no_rater] ? '' : "belongs_to :rater, :class_name => #{rater_class}, :foreign_key => :rater_id"}
+                #{options[:no_rater] ? '' : "belongs_to :rater, :class_name => '#{rater_class}', :foreign_key => :rater_id"}
               end
             EOV
           end
@@ -133,7 +133,7 @@ module ActiveRecord #:nodoc:
           rater_as_class = rater_class.constantize
           return if rater_as_class.instance_methods.include?('find_in_ratings')
           rater_as_class.class_eval <<-EOS
-            has_many :ratings, :foreign_key => :rater_id, :class_name => #{rating_class.to_s}
+            has_many :ratings, :foreign_key => :rater_id, :class_name => '#{rating_class.to_s}'
           EOS
         end
       end
